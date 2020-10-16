@@ -3,7 +3,7 @@ const fs = require("fs");
 const path = require("path");
 const PORT = process.env.PORT || 3001;
 const app = express();
-var newNote = require("./db/db.json");
+
 // parse incoming string or array data
 app.use(express.urlencoded({ extended: true }));
 // parse incoming JSON data
@@ -20,14 +20,35 @@ app.get("/notes", (req, res) => {
 });
 
 app.get("/api/notes", (req, res) => {
-  res.json(newNote);
+  fs.readFile("./db/db.json", "utf8", function (error, notes) {
+    if (error) {
+      return console.log(error);
+    }
+    console.log(notes);
+    var parsedNotes = JSON.parse(notes);
+    console.log(parsedNotes);
+    res.json(parsedNotes);
+  });
 });
 
 app.post("/api/notes", (req, res) => {
-  req.body.id;
-  newNote.push(req.body);
-  res.json(newNote);
+  req.body.id = Date.now();
+  fs.readFile("./db/db.json", "utf8", function (error, notes) {
+    if (error) {
+      return console.log(error);
+    }
+    console.log(notes);
+    var parsedNotes = JSON.parse(notes);
+    parsedNotes.push(req.body);
+    fs.writeFile("./db/db.json", JSON.stringify(parsedNotes), function (error) {
+      if (error) {
+        return console.log(error);
+      }
+      res.json(req.body);
+    });
+  });
 });
+
 app.listen(PORT, () => {
   console.log(`API server now on port ${PORT}!`);
 });
