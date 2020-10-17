@@ -24,9 +24,9 @@ app.get("/api/notes", (req, res) => {
     if (error) {
       return console.log(error);
     }
-    console.log(notes);
+
     var parsedNotes = JSON.parse(notes);
-    console.log(parsedNotes);
+
     res.json(parsedNotes);
   });
 });
@@ -37,7 +37,7 @@ app.post("/api/notes", (req, res) => {
     if (error) {
       return console.log(error);
     }
-    console.log(notes);
+
     var parsedNotes = JSON.parse(notes);
     parsedNotes.push(req.body);
     fs.writeFile("./db/db.json", JSON.stringify(parsedNotes), function (error) {
@@ -45,6 +45,27 @@ app.post("/api/notes", (req, res) => {
         return console.log(error);
       }
       res.json(req.body);
+    });
+  });
+});
+
+app.delete("/api/notes/:id", (req, res) => {
+  const id = Number(req.params.id);
+  fs.readFile("./db/db.json", "utf8", function (error, notes) {
+    if (error) {
+      return console.log(error);
+    }
+    const filteredNotesArray = JSON.parse(notes).filter(
+      (note) => note.id !== id
+    );
+    fs.writeFile("./db/db.json", JSON.stringify(filteredNotesArray), function (
+      error,
+      newNotes
+    ) {
+      if (error) {
+        return console.log(error);
+      }
+      return JSON.stringify(filteredNotesArray);
     });
   });
 });
