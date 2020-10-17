@@ -8,4 +8,4 @@ This application is for taking notes of things to do for the user throughout the
 4. Set up server using Express.js
 
 ## Application can be viewed on [GitHub pages](https://github.com/JoshCarter8400/note-taker/deployments/activity_log?environment=github-pages)
-## Application can deployed with [Heroku](https://github.com/JoshCarter8400/note-taker/deployments/activity_log?environment=nameless-stream-53113)
+## Application can deployed with [Heroku](https://nameless-stream-53113.herokuapp.com/)
