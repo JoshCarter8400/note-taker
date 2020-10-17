@@ -59,13 +59,12 @@ app.delete("/api/notes/:id", (req, res) => {
       (note) => note.id !== id
     );
     fs.writeFile("./db/db.json", JSON.stringify(filteredNotesArray), function (
-      error,
-      newNotes
+      error
     ) {
       if (error) {
         return console.log(error);
       }
-      return JSON.stringify(filteredNotesArray);
+      res.json({ ok: true });
     });
   });
 });
